@@ -9,16 +9,16 @@ import (
 )
 
 func main() {
-	rpioErr := rpio.Open()
-	pin := rpio.Pin(2)
-	pin.Output()
+	// rpioErr := rpio.Open()
+	// pin := rpio.Pin(2)
+	// pin.Output()
 	isOn := false
 	for {
-		if rpioErr == nil {
-			fmt.Println(rpioErr)
-			rpio.Close()
-			break
-		}
+		// if rpioErr == nil {
+		// 	fmt.Println(rpioErr)
+		// 	rpio.Close()
+		// 	break
+		// }
 
 		param := sunrisesunset.Parameters{
 			Latitude:  55.566935,
@@ -28,23 +28,25 @@ func main() {
 		}
 
 		sunrise, sunset, err := param.GetSunriseSunset()
-		now := time.Date(1, 1, 1, time.Now().Hour(), time.Now().Minute(), time.Now().Second(), 0, time.UTC)
-		tdySunset := time.Date(1, 1, 1, sunset.Hour(), sunset.Minute(), sunset.Second(), 0, time.UTC)
-		tmrSunrise := time.Date(1, 1, 2, sunrise.Hour(), sunrise.Minute(), sunrise.Second(), 0, time.UTC)
+		now := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), time.Now().Hour(), time.Now().Minute(), time.Now().Second(), 0, time.UTC)
+		// now := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 14, 12, 13, 0, time.UTC)
+		tdySunset := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), sunset.Hour(), sunset.Minute(), sunset.Second(), 0, time.UTC)
+		tmrSunrise := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), sunrise.Hour(), sunrise.Minute(), sunrise.Second(), 0, time.UTC)
 		if err == nil {
-			fmt.Printf("Now: %s\n", now.Format("15:04:05"))
+			fmt.Print("Now: ")
+			fmt.Println(now)
+			fmt.Println(tdySunset)
+			fmt.Println(tmrSunrise)
 
-			fmt.Printf("Is now after sunset?: %t\n", now.After(tdySunset))
-
-			fmt.Printf("Is now before sunrise?: %t\n", now.Before(tmrSunrise))
-
-			if now.After(tdySunset) && now.Before(tmrSunrise) {
+			if (now.After(tdySunset) && now.Before(tmrSunrise.Add(time.Hour*24))) || (now.Before(tdySunset.Add(time.Hour*24)) && now.Before(tmrSunrise)) {
 				isOn = true
-				pin.High()
+				fmt.Println("1")
+				// pin.High()
 				fmt.Printf("Is on?: %t\n", isOn)
 			} else {
+				fmt.Println("3")
 				isOn = false
-				pin.Low()
+				// pin.Low()
 				fmt.Printf("Is on?: %t\n", isOn)
 			}
 
