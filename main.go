@@ -9,16 +9,15 @@ import (
 )
 
 func main() {
-	// rpioErr := rpio.Open()
-	// pin := rpio.Pin(2)
-	// pin.Output()
-	isOn := false
+	rpioErr := rpio.Open()
+	pin := rpio.Pin(4)
+	pin.Output()
 	for {
-		// if rpioErr == nil {
-		// 	fmt.Println(rpioErr)
-		// 	rpio.Close()
-		// 	break
-		// }
+		if rpioErr != nil {
+			fmt.Println(rpioErr)
+			rpio.Close()
+			break
+		}
 
 		param := sunrisesunset.Parameters{
 			Latitude:  55.566935,
@@ -37,17 +36,12 @@ func main() {
 			fmt.Println(now)
 			fmt.Println(tdySunset)
 			fmt.Println(tmrSunrise)
+			fmt.Printf("\n")
 
 			if (now.After(tdySunset) && now.Before(tmrSunrise.Add(time.Hour*24))) || (now.Before(tdySunset.Add(time.Hour*24)) && now.Before(tmrSunrise)) {
-				isOn = true
-				fmt.Println("1")
-				// pin.High()
-				fmt.Printf("Is on?: %t\n", isOn)
+				pin.High()
 			} else {
-				fmt.Println("3")
-				isOn = false
-				// pin.Low()
-				fmt.Printf("Is on?: %t\n", isOn)
+				pin.Low()
 			}
 
 		} else {
