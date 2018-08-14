@@ -33,7 +33,8 @@ func main() {
 
 		sunrise, sunset, err := calculationParams.GetSunriseSunset()
 
-		now := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), time.Now().Hour(), time.Now().Minute(), time.Now().Second(), 0, time.UTC)
+		now := time.Now().Add(time.Hour * 2)
+		//now := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), time.Now().Hour(), time.Now().Minute(), time.Now().Second(), 0, time.UTC)
 		//now := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 22, 12, 13, 0, time.UTC)
 		tdySunset := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), sunset.Hour(), sunset.Minute(), sunset.Second(), 0, time.UTC)
 		tmrSunrise := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), sunrise.Hour(), sunrise.Minute(), sunrise.Second(), 0, time.UTC)
